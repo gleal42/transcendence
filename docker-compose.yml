@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres
+    restart: on-failure
+    volumes:
+      - v_db:/data
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - PGDATA=/data
+  # frontend:
+  # backend:
+
+networks:
+  transcendence:
+    driver: bridge
+
+volumes:
+  v_db:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DB_VOL_LOC}
+  # v_frontend:
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: 
+  # v_backend:
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: 
