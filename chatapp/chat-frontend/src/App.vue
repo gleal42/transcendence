@@ -1,6 +1,6 @@
 <template>
   <div class="Chat">
-    <div class="chat-container" ref="messageContainer">
+    <div id="chat-container" ref="chatContainer">
       <div
         v-for="message in messages"
         :key="message.id"
@@ -18,13 +18,65 @@
   </div>
 </template>
 
+<script setup>
+import { io } from 'socket.io-client'
+import { ref, onBeforeMount, watch, nextTick } from 'vue';
+
+const socket = io('http://localhost:3000');
+const messageText = ref('');
+const messages = ref([]);
+const chatContainer = ref(null);
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    const container = chatContainer.value;
+    container.scrollTop = container.scrollHeight;
+  });
+};
+
+const sendMessage = () => {
+  socket.emit('sendMessage', { email: 'daniel@atoa.com', text: messageText.value }, response => {
+    messageText.value = '';
+  });
+}
+
+const getMessages = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/chat');
+    if (response.ok) {
+      const data = await response.json();
+      messages.value = data;
+      scrollToBottom();
+    } else {
+      console.log('Error:', response.status);
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+onBeforeMount(() => {
+  getMessages();
+});
+
+socket.on('recMessage', message => {
+  messages.value.push(message);
+  scrollToBottom();
+});
+
+watch(messages, () => {
+  scrollToBottom();
+});
+</script>
+
+
 <style scoped>
 .Chat {
   width: 400px;
   margin: 0 auto;
 }
 
-.chat-container {
+#chat-container {
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 300px;
@@ -57,55 +109,18 @@
 .send-button:hover {
   background-color: #45a049;
 }
-.chat-container::-webkit-scrollbar {
+#chat-container::-webkit-scrollbar {
   width: 8px;
 }
 
-.chat-container::-webkit-scrollbar-thumb {
+#chat-container::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
 }
 
-.chat-container::-webkit-scrollbar-thumb:hover {
+#chat-container::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
 </style>
 
-<script setup>
-import { io } from 'socket.io-client'
-import { ref, onBeforeMount, watch, nextTick } from 'vue';
 
-const socket = io('http://localhost:3000');
-const messageText = ref('');
-const messages = ref([]);
-
-const sendMessage = () => {
-  socket.emit('sendMessage', { email: 'daniel@atoa.com', text: messageText.value }, response => {
-    messageText.value = '';
-  });
-}
-
-const getMessages = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/chat');
-    if (response.ok) {
-      const data = await response.json();
-      messages.value = data;
-      scrollToBottom();
-    } else {
-      console.log('Error:', response.status);
-    }
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
-
-onBeforeMount(() => {
-  getMessages();
-});
-
-
-socket.on('recMessage', message => {
-  messages.value.push(message);
-});
-</script>
