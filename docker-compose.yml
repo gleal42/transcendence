@@ -8,6 +8,9 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - PGDATA=/data
+    ports:
+      - "5432:5432"
+    container_name: db
   # frontend:
   # backend:
 

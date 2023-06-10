@@ -17,3 +17,5 @@ dev:
 
 clean:
 	docker compose down -v --rmi all
+
+re: clean all
