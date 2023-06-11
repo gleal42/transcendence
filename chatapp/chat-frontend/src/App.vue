@@ -35,9 +35,10 @@ const scrollToBottom = () => {
 };
 
 const sendMessage = () => {
-  socket.emit('sendMessage', { email: 'daniel@atoa.com', text: messageText.value }, response => {
+	if (messageText.value == '')
+		return;
+  	socket.emit('sendMessage', { email: 'daniel@atoa.com', text: messageText.value })
     messageText.value = '';
-  });
 }
 
 const getMessages = async () => {
@@ -78,7 +79,7 @@ watch(messages, () => {
 
 #chat-container {
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 14px;
   height: 300px;
   overflow-y: scroll;
   padding: 10px;
