@@ -13,7 +13,7 @@ import {
     @Column()
     email: string;
     
-    @Column({ unique: true })
+    @Column()
     text: string;
     
     @CreateDateColumn()
