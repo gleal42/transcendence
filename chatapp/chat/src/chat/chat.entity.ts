@@ -8,14 +8,17 @@ import {
    @Entity()
    export class Chat {
     @PrimaryGeneratedColumn()
-    id: number;
+    chat_id: number;
     
     @Column()
-    email: string;
+    sender: string;
     
     @Column()
-    text: string;
+    message: string;
     
     @CreateDateColumn()
-    createdAt: Date;
+    time: Date;
+
+    @Column()
+    channel: number;
    }

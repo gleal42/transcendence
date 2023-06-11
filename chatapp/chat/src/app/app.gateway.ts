@@ -26,12 +26,13 @@ import { Chat } from '../chat/chat.entity';
  
  @SubscribeMessage('sendMessage')
  async handleSendMessage(client: Socket, payload: Chat): Promise<void> {
+  console.log(new Date(),payload)
    await this.appService.createMessage(payload);
    this.server.emit('recMessage', payload);
  }
  
  afterInit(server: Server) {
-   console.log(server);
+   
  }
  
  handleDisconnect(client: Socket) {
