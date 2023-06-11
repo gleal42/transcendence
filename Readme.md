@@ -26,3 +26,27 @@ Where origin is the main repository (So the one your forked from).
 6) If your PR is accepted it will get squashed (all your commits combined into one) and merged with the master branch.
 
 All of the frontend and backend files should be located in folders called frontend and backend respectively. It's recommended to put all your code in a subfolder so we can easily copy it (or rather use a volume) with docker.
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Type-Check, Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
