@@ -11,7 +11,7 @@ import {
     chat_id: number;
     
     @Column()
-    sender: string;
+    author: string;
     
     @Column()
     message: string;
