@@ -8,11 +8,14 @@ export class friendService {
  constructor(
    @InjectRepository(friend) private friendRepository: Repository<friend>,
  ) {}
- async createMessage(friend: friend): Promise<friend> {
-   return await this.friendRepository.save(friend);
+ async createfriend(createfriendDto: any) {
+   return await this.friendRepository.save(createfriendDto);
  }
- 
- async getMessages(): Promise<friend[]> {
-   return await this.friendRepository.find();
- }
+ async findAll() {
+  return await this.friendRepository.find({relations: ['user1Id', 'user2Id' ]});
+}
+
+//  async getMessages(): Promise<friend[]> {
+//    return await this.friendRepository.find();
+//  }
 }

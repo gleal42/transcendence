@@ -3,12 +3,10 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    ManyToMany,
-    ManyToOne,
     OneToMany,
-    JoinTable
    } from 'typeorm';
 
+import { friend } from 'src/relations/friend/friend.entity';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -37,9 +35,5 @@ export class User {
 
     @CreateDateColumn()
     last_joined_date: Date;
-    
-    // @ManyToMany(() => User)
-    // @JoinTable()
-    // friends: User[];
 
 }

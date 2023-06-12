@@ -6,15 +6,16 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
- /* @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @Post('/createuser')
+  create(@Body() createUserDto: any) {
+    return this.usersService.createUser(createUserDto);
   }
-
-  @Get()
+  
+  @Get('/getUsers')
   findAll() {
     return this.usersService.findAll();
   }
+/* 
 
   @Get(':id')
   findOne(@Param('id') id: string) {
