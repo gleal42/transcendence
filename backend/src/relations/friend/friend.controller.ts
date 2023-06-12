@@ -17,10 +17,10 @@ export class friendsController {
     return this.friendService.findAll();
   }
 
-//   @Get(':id')
-//   findOne(@Param('id') id: string) {
-//     return this.usersService.findOne(+id);
-//   }
+  @Get('/:id')
+  findOne(@Param('id') id: string) {
+    return this.friendService.findByUserId(+id);
+  }
 
 //   @Patch(':id')
 //   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

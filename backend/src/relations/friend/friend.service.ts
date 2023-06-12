@@ -15,6 +15,16 @@ export class friendService {
   return await this.friendRepository.find({relations: ['user1Id', 'user2Id' ]});
 }
 
+async findByUserId(userId: number) {
+  const friendship = await this.friendRepository.find({
+    where: [{ user1Id: { id: userId }},
+            {user2Id: {id: userId}}
+            ],
+    relations:['user1Id', 'user2Id']
+  });
+  return friendship
+}
+
 //  async getMessages(): Promise<friend[]> {
 //    return await this.friendRepository.find();
 //  }
