@@ -8,7 +8,7 @@ import {
    @Entity()
    export class Chat {
     @PrimaryGeneratedColumn()
-    chat_id: number;
+    id: number;
     
     @Column()
     author: string;

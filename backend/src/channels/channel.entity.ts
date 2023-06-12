@@ -22,16 +22,13 @@ import {
     @Column({nullable: true})
     password: string;
     
-    @ManyToMany(() => User)
-    @JoinTable()
-    admins: User[];
+    // @ManyToMany(() => User)
+    // @JoinTable()
+    // admins: User[];
 
-    @Column()
-    max_connected_users: number;
-
-    @ManyToMany(() => User)
-    @JoinTable()
-    users_joined: User[];
+    // @ManyToMany(() => User)
+    // @JoinTable()
+    // users_joined: User[];
    }
 
 

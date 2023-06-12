@@ -12,7 +12,7 @@ import {
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    user_id: number;
+    id: number;
     
     @Column()
     nick: string;
@@ -38,8 +38,8 @@ export class User {
     @CreateDateColumn()
     last_joined_date: Date;
     
-    @ManyToMany(() => User)
-    @JoinTable()
-    friends: User[];
+    // @ManyToMany(() => User)
+    // @JoinTable()
+    // friends: User[];
 
 }
