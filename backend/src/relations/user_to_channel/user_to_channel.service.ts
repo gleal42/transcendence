@@ -13,6 +13,20 @@ export class UserToChannelService {
    return await this.UserToChannelRepository.save(UserToChannel);
  }
 
+    async leavechannel(id_us: number, id_ch: number){
+      const channel_to_leave = await this.UserToChannelRepository.find({
+        where: { user_id: { id: id_us },
+                channel_id: {id: id_ch}
+              }
+                ,
+        relations:['user_id', 'channel_id']
+      });
+      
+     return await this.UserToChannelRepository.remove(channel_to_leave)
+    }
+
+  
+
 //  async createMessage(UserToChannel: UserToChannel): Promise<UserToChannel> {
 //    return await this.UserToChannelRepository.save(UserToChannel);
 //  }

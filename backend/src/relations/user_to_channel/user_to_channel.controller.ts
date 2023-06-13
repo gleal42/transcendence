@@ -10,6 +10,11 @@ export class UserToChannelController {
   create(@Body() createFriendDto: any) {
     return this.userToChannelService.joinchannel(createFriendDto);
   }
+    
+  @Delete('/leavechannel/:id_us/:id_ch')
+    remove(@Param('id_us') id_us: number,@Param('id_ch') id_ch: number ) {
+      return this.userToChannelService.leavechannel(id_us,id_ch);
+    }
 
   // @Get('/getfriends')
   // findAll() {
@@ -21,9 +26,5 @@ export class UserToChannelController {
   //   return this.friendService.findByUserId(+id);
   // }
   
-  //   @Delete('/deletefriends/:id1/:id2')
-  //   remove(@Param('id1') id1: number,@Param('id2') id2: number ) {
-  //     return this.friendService.delete_friend(id1,id2);
-  //   }
 
 }

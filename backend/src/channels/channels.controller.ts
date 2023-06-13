@@ -11,10 +11,10 @@ export class ChannelsController {
     return this.channelsService.create(createChannelDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.channelsService.findAll();
-  // }
+  @Get('/all')
+  findAll() {
+    return this.channelsService.all_channel();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
