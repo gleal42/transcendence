@@ -16,10 +16,10 @@ export class UserToChannelController {
       return this.userToChannelService.leavechannel(id_us,id_ch);
     }
 
-  // @Get('/getfriends')
-  // findAll() {
-  //   return this.friendService.findAll();
-  // }
+  @Get('/getusersonchannel/:id')
+  findAll(@Param('id') ch_id: number) {
+    return this.userToChannelService.usersonchannel(ch_id);
+  }
 
   // @Get('/:id')
   // findOne(@Param('id') id: string) {
