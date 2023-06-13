@@ -11,7 +11,7 @@ import {
    @Entity()
    export class Channel {
     @PrimaryGeneratedColumn()
-    channel_id: number;
+    id: number;
     
     @Column()
     type: number;

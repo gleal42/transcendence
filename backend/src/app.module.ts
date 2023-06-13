@@ -13,8 +13,8 @@ import { GameHistory } from './game_history/game_history.entity';
 import { Channel } from './channels/channel.entity';
 import { friend } from './relations/friend/friend.entity';
 import { FriendModule } from './relations/friend/friend.module';
-import { UserToChatChannel } from './relations/user_to_chat/user_to_chat.entity';
-import { UserToChatModule } from './relations/user_to_chat/user_to_chat.module';
+import { UserToChannel } from './relations/user_to_channel/user_to_channel.entity';
+import { UserToChannelModule } from './relations/user_to_channel/user_to_channel.module';
 
 @Module({
   imports: [
@@ -24,16 +24,16 @@ import { UserToChatModule } from './relations/user_to_chat/user_to_chat.module';
       username: 'dmarceli',
       password: 'dmarceli',
       database: 'dmarceli',
-      entities: [User,Chat, GameHistory, Channel, friend, UserToChatChannel ],
+      entities: [User,Chat, GameHistory, Channel, friend, UserToChannel ],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Chat, GameHistory, Channel, friend, UserToChatChannel]),
+    TypeOrmModule.forFeature([User, Chat, GameHistory, Channel, friend, UserToChannel]),
     ChatModule,
     UsersModule,
     GameHistoryModule,
     ChannelsModule,
     FriendModule,
-    UserToChatModule
+    UserToChannelModule
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],
