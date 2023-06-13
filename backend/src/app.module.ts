@@ -20,7 +20,7 @@ import { UserToChannelModule } from './relations/user_to_channel/user_to_channel
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'db',
       username: 'dmarceli',
       password: 'dmarceli',
       database: 'dmarceli',

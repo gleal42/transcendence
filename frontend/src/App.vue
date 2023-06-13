@@ -43,7 +43,7 @@ const sendMessage = () => {
 
 const getMessages = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/chat');
+    const response = await fetch('http://backend:3000/api/chat');
     if (response.ok) {
       const data = await response.json();
       messages.value = data;

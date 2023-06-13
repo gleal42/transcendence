@@ -7,14 +7,14 @@ $(DB_DATA):
 	mkdir $(DB_DATA)
 
 up: $(DB_DATA)
-	docker compose up -d --build
+	@docker compose up --build
 
 down:
 	docker compose down
 
 dev:
-	docker compose up
-
+	@docker compose up --build --detach 
+	
 clean:
 	docker compose down -v --rmi all
 
