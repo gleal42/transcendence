@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserToChannelService } from './user_to_channel.service';
+import { get } from 'http';
 
 
 @Controller('usertochannel')
@@ -19,6 +20,11 @@ export class UserToChannelController {
   @Get('/getusersonchannel/:id')
   findAll(@Param('id') ch_id: number) {
     return this.userToChannelService.usersonchannel(ch_id);
+  }
+
+  @Get('/getChannelsByUserID/:id')
+  findChannelsByUserID(@Param('id') us_id: number){
+    return this.userToChannelService.findChannelsByID(us_id);
   }
 
   // @Get('/:id')

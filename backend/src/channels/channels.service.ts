@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository,MoreThan } from 'typeorm';
 import { Channel } from './channel.entity';
 
@@ -8,15 +7,14 @@ import { Channel } from './channel.entity';
 export class ChannelsService {
 
    constructor(
-   @InjectRepository(Channel) private chatRepository: Repository<Channel>,
+   @InjectRepository(Channel) private ChannelsRepository: Repository<Channel>,
  ) {}
  create(createChannelDto: any) {
-    return this.chatRepository.save(createChannelDto);
+    return this.ChannelsRepository.save(createChannelDto);
   }
 
-
   async all_channel(){
-    return await this.chatRepository.find({
+    return await this.ChannelsRepository.find({
      // 0 is private message, it's supposed to not appear
       where: {type: MoreThan(0)}
     })

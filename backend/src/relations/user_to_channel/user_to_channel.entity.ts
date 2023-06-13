@@ -5,7 +5,7 @@ import { Channel } from 'src/channels/channel.entity';
 @Entity()
 export class UserToChannel {
   @PrimaryGeneratedColumn()
-  userToChatChannel_id: number;
+  id: number;
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: 'user_id' })
