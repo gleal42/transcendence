@@ -8,8 +8,8 @@ export class friendsController {
   constructor(private readonly friendService: friendService) {}
   
  @Post('/create')
-  create(@Body() createUserDto: any) {
-    return this.friendService.createfriend(createUserDto);
+  create(@Body() createFriendDto: any) {
+    return this.friendService.createfriend(createFriendDto);
   }
 
   @Get('/getfriends')
@@ -21,14 +21,10 @@ export class friendsController {
   findOne(@Param('id') id: string) {
     return this.friendService.findByUserId(+id);
   }
+  
+    @Delete('/deletefriends/:id1/:id2')
+    remove(@Param('id1') id1: number,@Param('id2') id2: number ) {
+      return this.friendService.delete_friend(id1,id2);
+    }
 
-//   @Patch(':id')
-//   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-//     return this.usersService.update(+id, updateUserDto);
-//   }
-
-//   @Delete(':id')
-//   remove(@Param('id') id: string) {
-//     return this.usersService.remove(+id);
-//   }
 }

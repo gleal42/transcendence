@@ -25,7 +25,16 @@ async findByUserId(userId: number) {
   return friendship
 }
 
-//  async getMessages(): Promise<friend[]> {
-//    return await this.friendRepository.find();
-//  }
+async delete_friend(id1: number,id2: number) {
+  
+  console.log(id1," ",id2)
+  const friendship = await this.friendRepository.findOne({
+    where: [{ user1Id: {id: id1}, user2Id: {id: id2}}, 
+           { user1Id: {id: id2}, user2Id: {id: id1}}
+          ], 
+    relations:['user1Id', 'user2Id']
+});
+  await this.friendRepository.remove(friendship)
+  return friendship
+}
 }

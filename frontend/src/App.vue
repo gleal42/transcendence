@@ -6,7 +6,7 @@
         :key="message.id"
         class="message"
       >
-        <strong>{{ message.time }} {{ message.sender }}:</strong> {{ message.message }}
+        <strong>[{{ message.time }}] { {{ message.author }} }:</strong> {{ message.message }}
       </div>
     </div>
     <div class="msg-input">
@@ -37,7 +37,7 @@ const scrollToBottom = () => {
 const sendMessage = () => {
 	if (messageText.value == '')
 		return;
-  	socket.emit('sendMessage', { sender: 'daniel@atoa.com', message: messageText.value, channel: 1  })
+  	socket.emit('sendMessage', { author: 'marvin', message: messageText.value, channel: 1  })
     messageText.value = '';
 }
 
