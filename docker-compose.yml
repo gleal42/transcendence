@@ -11,8 +11,31 @@ services:
     ports:
       - "5432:5432"
     container_name: db
-  # frontend:
-  # backend:
+  backend:
+    image: node
+    restart: on-failure
+    volumes:
+      - ./backend:/home/node/app
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - "3000:3000"
+    container_name: backend
+    working_dir: /home/node/app
+    user: node
+    entrypoint: ["bash" , "-c" , "npm install && npm run start:dev"]
+  frontend:
+    image: node
+    restart: on-failure
+    volumes:
+      - ./frontend:/home/node/app
+    ports:
+      - '5173:5173'
+    container_name: frontend
+    working_dir: /home/node/app
+    user: node  
+    entrypoint: ["bash" , "-c" , "npm install && npm run dev"]
 
 networks:
   transcendence:
@@ -24,13 +47,3 @@ volumes:
       type: none
       o: bind
       device: ${DB_VOL_LOC}
-  # v_frontend:
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: 
-  # v_backend:
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: 
