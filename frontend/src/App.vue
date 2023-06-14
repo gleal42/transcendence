@@ -15,19 +15,18 @@
       </div> -->
     </div>
     <div id="chat-container" ref="chatContainer">
-      <div
-        v-for="message in messages"
-        :key="message.id"
-        class="message"
-      >
-        <strong>[{{ message.time }}] { {{ message.author }} }:</strong> {{ message.message }}
+      <div id="msg-container" ref="msgsContainer">
+        <div v-for="message in messages" :key="message.id" class="message">
+          <strong>[{{ message.author }}]:</strong> {{ message.message }}
+          <div class="message-time">{{ formatTime(message.time) }}</div>
+        </div>
       </div>
-    </div>
-    <div class="msg-input">
-      <form @submit.prevent="sendMessage">
-        <input v-model="messageText" placeholder="Message" class="input-field">
-        <button type="submit" class="send-button">Send</button>
-      </form>
+      <div class="msg-input">
+        <form @submit.prevent="sendMessage">
+          <input v-model="messageText" placeholder="Message" class="input-field">
+          <button type="submit" class="send-button">Send</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -41,17 +40,36 @@ const socket = io('http://localhost:3000');
 const messageText = ref('');
 const messages = ref([]);
 const channels = ref([]);
-let selected_channel = 0;
-const chatContainer = ref(null);
+let selected_channel = 3;
+const msgsContainer = ref(null);
+
 
 const scrollToBottom = () => {
   try {
     nextTick(() => {
-      const container = chatContainer.value;
+      let container = msgsContainer.value;
       container.scrollTop = container.scrollHeight;
     });
-  }   catch (error) {
-      console.log('Error:', error);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+const formatTime = (timestamp) => {
+  const currentTime = new Date();
+  const messageTime = new Date(timestamp);
+  const timeDiffMinutes = Math.floor((currentTime - messageTime) / (1000 * 60));
+
+  if (timeDiffMinutes < 1) {
+    return 'Just now';
+  } else if (timeDiffMinutes < 60) {
+    return `${timeDiffMinutes} mins ago`;
+  } else if (timeDiffMinutes < 1440) {
+    const hours = Math.floor(timeDiffMinutes / 60);
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  } else {
+    const days = Math.floor(timeDiffMinutes / 1440);
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
   }
 };
 
@@ -123,7 +141,6 @@ onBeforeMount(() => {
 
 socket.on('recMessage', message => {
   getMessages()
-  //messages.value.push(message);
   scrollToBottom();
 });
 
