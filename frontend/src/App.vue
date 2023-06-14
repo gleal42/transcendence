@@ -1,18 +1,9 @@
 <template>
   <div class="Chat">
     <div class="channels-list">
-        <div>
-          <ul class="choose-channel-button" @click="chooseChannel(1)">choose Channel 1</ul>
-        </div>
-        <div>
-          <ul class="choose-channel-button" @click="chooseChannel(2)">choose Channel 2</ul>
-        </div>
-        <div>
-          <ul class="choose-channel-button" @click="chooseChannel(3)">choose Channel 3</ul>
-        </div>
-      <!-- <div v-for="channel in channels" :key="channel.id" class="channel">
+      <div v-for="channel in channels" :key="channel.id" class="channel" @click="chooseChannel(channel.id)">
         {{ channel.channel_name }}
-      </div> -->
+      </div>
     </div>
     <div id="chat-container" ref="chatContainer">
       <div id="msg-container" ref="msgsContainer">
@@ -24,7 +15,7 @@
       <div class="msg-input">
         <form @submit.prevent="sendMessage">
           <input v-model="messageText" placeholder="Message" class="input-field">
-          <button type="submit" class="send-button">Send</button>
+          <button :disabled='text === ""' type="submit" class="send-button">Send</button>
         </form>
       </div>
     </div>
