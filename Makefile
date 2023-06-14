@@ -1,12 +1,13 @@
-DB_DATA	= .db-data
+include .env
+DB_DATA	= $(DB_VOL_LOC)
 
 # Functions
-all: dev
+all: dev	
 
-$(DB_DATA):
-	mkdir $(DB_DATA)
-
-up: $(DB_DATA)
+up:
+	@if [ ! -d $(DB_DATA) ]; then \
+      mkdir $(DB_DATA); \
+	fi
 	@docker compose up --build
 
 down:
