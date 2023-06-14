@@ -132,7 +132,6 @@ onBeforeMount(() => {
 
 socket.on('recMessage', message => {
   getMessages()
-  scrollToBottom();
 });
 
 watch(messages, () => {
