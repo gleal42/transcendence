@@ -8,13 +8,13 @@ up:
 	@if [ ! -d $(DB_DATA) ]; then \
       mkdir $(DB_DATA); \
 	fi
-	@docker compose up --build
+	@docker compose up --build --detach
 
 down:
 	docker compose down
 
 dev:
-	@docker compose up --build --detach 
+	@docker compose up --build --detach
 	
 clean:
 	docker compose down -v --rmi all
