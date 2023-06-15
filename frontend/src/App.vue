@@ -1,8 +1,26 @@
 <template>
   <div class="Chat">
     <div class="channels-list">
-      <div v-for="channel in channels" :key="channel.id" class="channel" @click="chooseChannel(channel.id)">
+      <div v-if="side_info === 0" v-for="channel in channels" :key="channel.id" class="channel" @click="chooseChannel(channel.id)">
         {{ channel.channel_name }}
+      </div>
+      <div v-if="side_info === 1" v-for="user in users" :key="user.id" class="user">
+        {{ user.nick }}
+      </div>
+      <div v-if="side_info === 2" class="searchcontainer">
+        <form @submit.prevent="search">
+          <div class="search-input-container">
+            <button type="back" class="back-button" @click="side_info = 0"></button>
+            <input type="text" placeholder="Search..." class="input-field">
+            <button type="submit" class="send-button">Go</button>
+          </div>
+         </form>
+      </div>
+      <div class="button-container" v-if="side_info !== 2" >
+        <button class="channel-button bar-button" @click="getChannels()"></button>
+        <button class="people-button bar-button" @click="getUsers()"></button>
+        <button class="new-button bar-button"></button>
+        <button class="search-button bar-button" @click="search()"></button>
       </div>
     </div>
     <div id="chat-container" ref="chatContainer">
@@ -15,7 +33,7 @@
       <div class="msg-input">
         <form @submit.prevent="sendMessage">
           <input v-model="messageText" placeholder="Message" class="input-field">
-          <button :disabled='text === ""' type="submit" class="send-button">Send</button>
+          <button type="submit" class="send-button">Send</button>
         </form>
       </div>
     </div>
@@ -26,14 +44,65 @@
 import { io } from 'socket.io-client'
 import { ref, onBeforeMount, watch, nextTick } from 'vue';
 
-const socket = io('http://localhost:3000');
 
+const socket = io('http://localhost:3000');
+const msgsContainer = ref(null);
 const messageText = ref('');
 const messages = ref([]);
 const channels = ref([]);
+const users = ref([]);
 let selected_channel = 3;
-const msgsContainer = ref(null);
+let side_info = ref(0);
 
+
+
+const getMessages = async () => {
+
+try {
+  let url = 'http://localhost:3000/chat/msginchannel/' + selected_channel
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    messages.value = data;
+    scrollToBottom();
+  } else {
+    console.log('Error:', response.status);
+  }
+} catch (error) {
+  console.log('Error:', error);
+}
+};
+
+const getUsers = async () => {
+side_info.value = 1;
+try {
+  const response = await fetch('http://localhost:3000/users/getUsers');
+  if (response.ok) {
+    const data = await response.json();
+    users.value = data;
+  } else {
+    console.log('Error:', response.status);
+  }
+} catch (error) {
+  console.log('Error:', error);
+}
+};
+
+
+const getChannels = async () => {
+side_info.value = 0;
+try {
+  const response = await fetch('http://localhost:3000/channels/all');
+  if (response.ok) {
+    const data = await response.json();
+    channels.value = data;
+  } else {
+    console.log('Error:', response.status);
+  }
+} catch (error) {
+  console.log('Error:', error);
+}
+};
 
 const scrollToBottom = () => {
   try {
@@ -64,42 +133,18 @@ const formatTime = (timestamp) => {
   }
 };
 
+
+
 const sendMessage = () => {
-	if (messageText.value == '')
-		return;
-  	socket.emit('sendMessage', { author: 'marvin', message: messageText.value, channel: selected_channel  })
-    messageText.value = '';
+  if (messageText.value == '')
+  return;
+  socket.emit('sendMessage', { author: 'marvin', message: messageText.value, channel: selected_channel  })
+  messageText.value = '';
 }
 
-const getMessages = async () => {
-  try {
-    let url = 'http://localhost:3000/chat/msginchannel/' + selected_channel
-    const response = await fetch(url);
-    if (response.ok) {
-      const data = await response.json();
-      messages.value = data;
-      scrollToBottom();
-    } else {
-      console.log('Error:', response.status);
-    }
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
-
-const getChannels = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/channels/all');
-    if (response.ok) {
-      const data = await response.json();
-      channels.value = data;
-    } else {
-      console.log('Error:', response.status);
-    }
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
+const search = () => {
+  side_info.value = 2;
+}
 
 const chooseChannel = (channel)=>{
   selected_channel = channel;

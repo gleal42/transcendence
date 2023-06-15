@@ -138,3 +138,80 @@
 .message-time{
   font-size: 12px;
 }
+
+.button-container {
+  display: flex;
+  justify-content: start;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5%;
+}
+
+.bar-button{
+  border: none;
+  margin: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  width: 25%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.bar-button:hover {
+  transform: translateY(-15px);
+}
+
+.channel-button {
+  background-image: url('../src/assets/channels.png');
+}
+.people-button {
+  background-image: url('../src/assets/user.png');
+}
+
+.new-button {
+  background-image: url('../src/assets/new.png');
+}
+
+.search-button {
+  background-image: url('../src/assets/search.png');
+}
+
+
+.back-button{
+  background-image: url('../src/assets/back.png');
+  border: none;
+  background-color: transparent;
+  cursor: pointer; 
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: transform 0.3s ease-in-out;
+  width: 33%;
+  height: 32px;
+}
+
+.searchcontainer {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: start;
+  padding: 10px;
+  background-color:transparent;
+  bottom: 0;
+  position: absolute;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: left;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+
+
+
+
+
