@@ -55,6 +55,18 @@ let selected_channel = 3;
 let side_info = ref(0);
 
 
+//https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set
+let params = new URLSearchParams(document.location.search);
+let name = params.get("username"); // is the string "Jonathan"
+let intra_nick= params.get("intra_nick"); // is the number 18
+if(name && intra_nick){
+  console.log(name,intra_nick)
+  localStorage.name=name;
+  localStorage.intra_nick=intra_nick;
+}
+else{
+  window.history.replaceState(null, '', '?username=nuno&intra_nick=ncameiri');
+}
 
 const getMessages = async () => {
 
@@ -182,6 +194,8 @@ socket.on('recMessage', message => {
 watch(messages, () => {
   scrollToBottom();
 });
+
+
 </script>
 
 
