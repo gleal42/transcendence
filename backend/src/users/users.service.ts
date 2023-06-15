@@ -17,6 +17,14 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
+   async findbyuser(nick_:string) {
+   const resp= await this.userRepository.findOne({where: {
+      nick: nick_
+    }});
+    console.log(resp)
+    return resp;
+  }
+
   // findOne(id: number) {
   //   return `This action returns a #${id} user`;
   // }
