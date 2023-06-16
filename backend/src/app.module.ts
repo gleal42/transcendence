@@ -15,15 +15,17 @@ import { friend } from './relations/friend/friend.entity';
 import { FriendModule } from './relations/friend/friend.module';
 import { UserToChannel } from './relations/user_to_channel/user_to_channel.entity';
 import { UserToChannelModule } from './relations/user_to_channel/user_to_channel.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
+  imports: [ 
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'db',
-      username: 'dmarceli',
-      password: 'dmarceli',
-      database: 'dmarceli',
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [User,Chat, GameHistory, Channel, friend, UserToChannel ],
       synchronize: true,
     }),
