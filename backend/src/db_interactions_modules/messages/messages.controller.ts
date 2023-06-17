@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ChatService } from './chat.service';
+import { MessagesService } from './messages.service';
 
 
 @Controller('chat')
-export class ChatController {
-  constructor(private readonly ChatService: ChatService) {}
+export class MessagesController {
+  constructor(private readonly MessagesService: MessagesService) {}
 
   @Get('/msginchannel/:id')
   findAll(@Param('id') id: number) {
-    return this.ChatService.findMessagesByChannelId(id);
+    return this.MessagesService.findMessagesByChannelId(id);
   }
 
   // @Get(':id')

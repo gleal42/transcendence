@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import { Channel } from 'src/channels/channel.entity';
+import { User } from 'src/db_interactions_modules/users/user.entity';
+import { Channel } from 'src/db_interactions_modules/channels/channel.entity';
 
 @Entity()
 export class UserToChannel {

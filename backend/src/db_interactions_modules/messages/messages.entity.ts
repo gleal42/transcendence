@@ -4,15 +4,18 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
    } from 'typeorm';
+import { User } from '../users/user.entity';
+import { Channel } from '../channels/channel.entity';
     
    @Entity()
-   export class Chat {
+   export class Messages {
     @PrimaryGeneratedColumn()
     id: number;
     
     @Column()
+    //To be developed author: User;
     author: string;
-    
+        
     @Column()
     message: string;
     
@@ -20,5 +23,6 @@ import {
     time: Date;
 
     @Column()
+    //To be developed author: Channel;
     channel: number;
    }

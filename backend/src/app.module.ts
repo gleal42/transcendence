@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AppGateway } from './app/app.gateway';
+import { AppGateway } from './db_interactions_modules/app/app.gateway';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Chat } from './chat/chat.entity';
-import { ChatModule } from './chat/chat.module';
-import { UsersModule } from './users/users.module';
-import { GameHistoryModule } from './game_history/game_history.module';
-import { ChannelsModule } from './channels/channels.module';
-import { User } from './users/user.entity';
-import { GameHistory } from './game_history/game_history.entity';
-import { Channel } from './channels/channel.entity';
-import { friend } from './relations/friend/friend.entity';
-import { FriendModule } from './relations/friend/friend.module';
-import { UserToChannel } from './relations/user_to_channel/user_to_channel.entity';
-import { UserToChannelModule } from './relations/user_to_channel/user_to_channel.module';
+import { UsersModule } from './db_interactions_modules/users/users.module';
+import { GameHistoryModule } from './db_interactions_modules/game_history/game_history.module';
+import { ChannelsModule } from './db_interactions_modules/channels/channels.module';
+import { User } from './db_interactions_modules/users/user.entity';
+import { GameHistory } from './db_interactions_modules/game_history/game_history.entity';
+import { Channel } from './db_interactions_modules/channels/channel.entity';
+import { friend } from './db_interactions_modules/relations/friend/friend.entity';
+import { FriendModule } from './db_interactions_modules/relations/friend/friend.module';
+import { UserToChannel } from './db_interactions_modules/relations/user_to_channel/user_to_channel.entity';
+import { UserToChannelModule } from './db_interactions_modules/relations/user_to_channel/user_to_channel.module';
 import { ConfigModule } from '@nestjs/config';
+import { Messages } from './db_interactions_modules/messages/messages.entity';
+import { MessagesModule } from './db_interactions_modules/messages/messages.module';
 
 @Module({
   imports: [ 
@@ -26,11 +26,11 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User,Chat, GameHistory, Channel, friend, UserToChannel ],
+      entities: [User,Messages, GameHistory, Channel, friend, UserToChannel ],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Chat, GameHistory, Channel, friend, UserToChannel]),
-    ChatModule,
+    TypeOrmModule.forFeature([User, Messages, GameHistory, Channel, friend, UserToChannel]),
+    MessagesModule,
     UsersModule,
     GameHistoryModule,
     ChannelsModule,

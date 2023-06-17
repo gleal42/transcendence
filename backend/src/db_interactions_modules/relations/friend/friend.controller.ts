@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { friend } from './friend.entity';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/db_interactions_modules/users/users.service';
 import { friendService } from './friend.service';
 
 @Controller('friends')

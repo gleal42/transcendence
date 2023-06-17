@@ -1,4 +1,4 @@
-import { User } from 'src/users/user.entity';
+import { User } from 'src/db_interactions_modules/users/user.entity';
 import {
     Entity,
     Column,

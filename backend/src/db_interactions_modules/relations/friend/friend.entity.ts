@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/db_interactions_modules/users/user.entity';
 
 @Entity()
 export class friend {

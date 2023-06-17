@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Messages } from './db_interactions_modules/messages/messages.entity';
+import { Messages } from './messages.entity';
  
 @Injectable()
-export class AppService {
+export class MessagesService {
  constructor(
    @InjectRepository(Messages) private messagesRepository: Repository<Messages>,
  ) {}
@@ -12,6 +12,13 @@ export class AppService {
    return await this.messagesRepository.save(Messages);
  }
  
+ async findMessagesByChannelId(id_given : number){
+  const messages = await this.messagesRepository.find({
+    where: {channel: id_given}
+  });
+  return messages
+ }
+
  async getMessages(): Promise<Messages[]> {
    return await this.messagesRepository.find();
  }

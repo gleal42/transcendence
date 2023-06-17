@@ -6,7 +6,7 @@ import {
     OneToMany,
    } from 'typeorm';
 
-import { friend } from 'src/relations/friend/friend.entity';
+import { friend } from 'src/db_interactions_modules/relations/friend/friend.entity';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
