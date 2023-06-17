@@ -19,7 +19,7 @@
       <div class="button-container" v-if="side_info !== 2" >
         <button class="channel-button bar-button" @click="getChannels()"></button>
         <button class="people-button bar-button" @click="getUsers()"></button>
-        <button class="new-button bar-button"></button>
+        <button class="new-button bar-button" @click="createChannel()"></button>
         <button class="search-button bar-button" @click="search()"></button>
       </div>
     </div>
@@ -54,19 +54,38 @@ const users = ref([]);
 let selected_channel = 3;
 let side_info = ref(0);
 
+const check_user = async () => {
+
+try {
+  let url = 'http://localhost:3000/users/getUsers/' + localStorage.name
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();  
+    console.log(data)  
+  } else {
+    console.log('Error:', response.status);
+    window.alert("User Doesn't exist")
+  }
+} catch (error) {
+  console.log('Error:', error);
+}
+};
 
 //https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set
 let params = new URLSearchParams(document.location.search);
 let name = params.get("username"); // is the string "Jonathan"
 let intra_nick= params.get("intra_nick"); // is the number 18
 if(name && intra_nick){
-  console.log(name,intra_nick)
   localStorage.name=name;
   localStorage.intra_nick=intra_nick;
+  check_user()
 }
 else{
-  window.history.replaceState(null, '', '?username=nuno&intra_nick=ncameiri');
+  window.alert("Please set username + intra:nick")
+  window.history.replaceState(null, '', '?username=PLEASE_SET&intra_nick=PLEASE_SET');
 }
+
+
 
 const getMessages = async () => {
 
@@ -150,7 +169,7 @@ const formatTime = (timestamp) => {
 const sendMessage = () => {
   if (messageText.value == '')
   return;
-  socket.emit('sendMessage', { author: 'marvin', message: messageText.value, channel: selected_channel  })
+  socket.emit('sendMessage', { /*author: 'marvin'*/author: localStorage.name, message: messageText.value, channel: selected_channel  })
   messageText.value = '';
 }
 
@@ -164,13 +183,14 @@ const chooseChannel = (channel)=>{
 }
 
 const createChannel = async () => {
+  let channel_name = window.prompt("Channel Name")
   try {
     const response = await fetch('http://localhost:3000/channels/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type: '1' ,channel_name: 'test_Channel' }),
+      body: JSON.stringify({ type: '1' ,channel_name: channel_name }),
     });
     if (response.ok) {
       getChannels();

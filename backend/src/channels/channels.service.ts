@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository,MoreThan } from 'typeorm';
+import { Repository,MoreThan, QueryFailedError } from 'typeorm';
 import { Channel } from './channel.entity';
 
 @Injectable()
@@ -9,9 +9,18 @@ export class ChannelsService {
    constructor(
    @InjectRepository(Channel) private ChannelsRepository: Repository<Channel>,
  ) {}
- create(createChannelDto: any) {
-    return this.ChannelsRepository.save(createChannelDto);
+
+
+ async create(createChannelDto: any) {
+  try {
+    const response = await this.ChannelsRepository.save(createChannelDto)// Perform the database operation that may cause a duplicate key exception
+    return response
+  } catch (error) {
+    if (error instanceof QueryFailedError) {
+      throw new ConflictException('Duplicate key value found.');
+    }
   }
+}
 
   async all_channel(){
     return await this.ChannelsRepository.find({

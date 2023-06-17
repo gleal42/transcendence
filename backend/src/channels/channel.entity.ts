@@ -16,7 +16,7 @@ import {
     @Column()
     type: number;
     
-    @Column()
+    @Column({unique: true})
     channel_name: string;
 
     @Column({nullable: true})

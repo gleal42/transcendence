@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Catch, ConflictException} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { Repository, QueryFailedError } from 'typeorm';
+import { Response } from 'express';
+
 
 @Injectable()
 export class UsersService {
@@ -9,20 +11,32 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
+
+
   async createUser(User: any){
-    return await this.userRepository.save(User);
+    try {
+        const response = await this.userRepository.save(User)// Perform the database operation that may cause a duplicate key exception
+        return response
+      } catch (error) {
+        if (error instanceof QueryFailedError) {
+          throw new ConflictException('Duplicate key value found.');
+        }
+      }
   }
 
   async findAll() {
     return await this.userRepository.find();
   }
 
-   async findbyuser(nick_:string) {
+   async findbyusername_(nick_:string, res: Response) {
    const resp= await this.userRepository.findOne({where: {
       nick: nick_
     }});
     console.log(resp)
-    return resp;
+    if(!resp)
+      return res.status(404).json()
+    else
+      return res.status(200).json(resp);
   }
 
   // findOne(id: number) {
@@ -36,4 +50,4 @@ export class UsersService {
   // remove(id: number) {
   //   return `This action removes a #${id} user`;
   // }
-}
+  }

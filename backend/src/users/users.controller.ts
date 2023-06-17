@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 
@@ -17,8 +17,8 @@ export class UsersController {
   }
 
   @Get('/getUsers/:nick')
-  findbyusername(@Param('nick') nick_: string) {
-    return this.usersService.findbyuser(nick_);
+  findbyusername(@Param('nick') nick_: string, @Res() res) {
+    return this.usersService.findbyusername_(nick_, res);
   }
 /* 
 
