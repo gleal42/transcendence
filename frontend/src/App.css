@@ -184,8 +184,11 @@
   background-image: url('../src/assets/new_message.svg');
 }
 
+
 .search-button {
   background-image: url('../src/assets/search.svg');
+  fill: white;stroke:rgb(255, 255, 255);
+  
 }
 
 
