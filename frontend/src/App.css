@@ -31,6 +31,7 @@
 
 .message-received {
   align-self: flex-start;
+  background-color: #0089d8;
 }
   
 .msg-input {
@@ -173,23 +174,23 @@
 }
 
 .channel-button {
-  background-image: url('../src/assets/channels.png');
+  background-image: url('../src/assets/channels.svg');
 }
 .people-button {
-  background-image: url('../src/assets/user.png');
+  background-image: url('../src/assets/user.svg');
 }
 
 .new-button {
-  background-image: url('../src/assets/new.png');
+  background-image: url('../src/assets/new_message.svg');
 }
 
 .search-button {
-  background-image: url('../src/assets/search.png');
+  background-image: url('../src/assets/search.svg');
 }
 
 
 .back-button{
-  background-image: url('../src/assets/back.png');
+  background-image: url('../src/assets/back.svg');
   border: none;
   background-color: transparent;
   cursor: pointer; 

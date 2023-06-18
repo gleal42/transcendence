@@ -18,12 +18,16 @@ export class MessagesService {
   const channel= await this.channelRepository.find(
     {
       where: {id:  id_given}
+      
     }
   )
   const messages = await this.messagesRepository.find({
     where: {channel: channel},
     relations: ['author'],
     select: { author: { nick: true } }
+    ,order:{
+      id: "ASC"
+    }
   });
   
   return messages
