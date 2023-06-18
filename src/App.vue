@@ -19,6 +19,7 @@ header {
   line-height: 1.5;
   max-height: 100vh;
   display: flex;
+  margin-right: 2vw;
 }
 
 nav {
@@ -26,6 +27,7 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
+  line-height: 2.2rem;
 }
 
 nav a.router-link-exact-active {
@@ -56,7 +58,7 @@ nav a:first-of-type {
     flex-direction: column;
     text-align: left;
     margin-left: 0rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 }
 </style>
