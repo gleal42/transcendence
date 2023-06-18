@@ -26,7 +26,7 @@
     <div id="chat-container" ref="chatContainer">
       <div id="msg-container" ref="msgsContainer">
         <div v-for="message in messages" :key="message.id" class="message">
-          <strong>[{{ message.author }}]:</strong> {{ message.message }}
+          <strong>[{{ message.author.nick }}]:</strong> {{ message.message }}
           <div class="message-time">{{ formatTime(message.time) }}</div>
         </div>
       </div>
@@ -61,7 +61,7 @@ try {
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();  
-    console.log(data)  
+    localStorage.id=data.id
   } else {
     console.log('Error:', response.status);
     window.alert("User Doesn't exist")
@@ -169,7 +169,8 @@ const formatTime = (timestamp) => {
 const sendMessage = () => {
   if (messageText.value == '')
   return;
-  socket.emit('sendMessage', { /*author: localStorage.name*/authorId:1, message: messageText.value, channelId: selected_channel  })
+  socket.emit('sendMessage', { authorId:localStorage.id, message: messageText.value, channelId: selected_channel  })
+  console.log(messageText)
   messageText.value = '';
 }
 
