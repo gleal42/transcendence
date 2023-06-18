@@ -26,7 +26,7 @@
     <div id="chat-container" ref="chatContainer">
       <div id="msg-container" ref="msgsContainer">
         <div v-for="message in messages" :key="message.id" :class="[getMessageClass(message.author.nick), 'message']">
-          <strong>[{{ message.author.nick }}]:</strong> {{ message.message }}
+          <strong>[{{ message.author?.nick }}]:</strong> {{ message.message }}
           <div class="message-time">{{ formatTime(message.time) }}</div>
         </div>
       </div>
@@ -189,17 +189,19 @@ const chooseChannel = (channel)=>{
 }
 
 const createChannel = async () => {
-  let channel_name = window.prompt("Channel Name")
+  let channel_name = window.prompt("Channel Name");
   try {
     const response = await fetch('http://localhost:3000/channels/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type: '1' ,channel_name: channel_name }),
+      body: JSON.stringify({ type: '1', channel_name: channel_name }),
     });
     if (response.ok) {
-      getChannels();
+      await getChannels();
+      chooseChannel(response.id);
+      getMessages();
     } else {
       console.log('Error:', response.status);
     }
@@ -207,6 +209,7 @@ const createChannel = async () => {
     console.log('Error:', error);
   }
 };
+
 
 onBeforeMount(() => {
   getChannels();
