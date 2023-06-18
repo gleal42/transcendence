@@ -3,6 +3,8 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
+    ManyToOne, 
+    JoinColumn
    } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Channel } from '../channels/channel.entity';
@@ -12,9 +14,10 @@ import { Channel } from '../channels/channel.entity';
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column()
-    //To be developed author: User;
-    author: string;
+    @ManyToOne(() => User, user => user.id)
+    @JoinColumn({ name: 'authorId' })
+    author: User;
+    //author: string;
         
     @Column()
     message: string;
@@ -22,7 +25,8 @@ import { Channel } from '../channels/channel.entity';
     @CreateDateColumn()
     time: Date;
 
-    @Column()
-    //To be developed author: Channel;
-    channel: number;
+   @ManyToOne(() => Channel, channel => channel.id)
+   @JoinColumn({ name: 'channelId' })
+   channel: Channel;
+    //channel: number;
    }

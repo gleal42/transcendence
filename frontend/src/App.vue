@@ -169,7 +169,7 @@ const formatTime = (timestamp) => {
 const sendMessage = () => {
   if (messageText.value == '')
   return;
-  socket.emit('sendMessage', { /*author: 'marvin'*/author: localStorage.name, message: messageText.value, channel: selected_channel  })
+  socket.emit('sendMessage', { /*author: localStorage.name*/authorId:1, message: messageText.value, channelId: selected_channel  })
   messageText.value = '';
 }
 

@@ -14,7 +14,7 @@ export class MessagesService {
  
  async findMessagesByChannelId(id_given : number){
   const messages = await this.messagesRepository.find({
-    where: {channel: id_given}
+    where: {id: id_given}
   });
   return messages
  }

@@ -8,8 +8,7 @@ OnGatewayDisconnect,
 } from '@nestjs/websockets';
 
 import { Socket, Server } from 'socket.io';
-import { AppService } from 'src/app.service';
-import { Messages } from 'src/db_interactions_modules/messages/messages.entity';
+import { AppService } from '../../app.service';
 
 
 @WebSocketGateway({
@@ -25,7 +24,7 @@ import { Messages } from 'src/db_interactions_modules/messages/messages.entity';
  @WebSocketServer() server: Server;
  
  @SubscribeMessage('sendMessage')
- async handleSendMessage(client: Socket, payload: Messages): Promise<void> {
+ async handleSendMessage(client: Socket, payload: any): Promise<void> {
   console.log(new Date(),payload)
    await this.appService.createMessage(payload);
    this.server.emit('recMessage', payload);
