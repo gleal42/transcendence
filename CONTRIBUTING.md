@@ -68,6 +68,7 @@ If you pass a negative value to `function` it will run into an infinite loop. On
 - Name of `function` is not descriptive/confusing.
 
 ## Notes:
+
 Although `lib.func` does work, it's not very efficient. Try using the build-in `func` instead.
 ```
 
@@ -86,6 +87,7 @@ If you pass a negative value to `function` it will run into an infinite loop. On
 
 ## Notes:
 Although `lib.func` does work, it's not very efficient. Try using the build-in `func` instead.
+
 ---
 
 A review containing "normal" issues should **NEVER** be accepted. If these are found the review should be marked with `request changes`. Once the pull request has been accepted the reviewer should convert the style related issues into issues. Make sure to mark them with the correct labels.
