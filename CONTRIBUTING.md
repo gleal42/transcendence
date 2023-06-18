@@ -68,7 +68,6 @@ If you pass a negative value to `function` it will run into an infinite loop. On
 - Name of `function` is not descriptive/confusing.
 
 ## Notes:
-
 Although `lib.func` does work, it's not very efficient. Try using the build-in `func` instead.
 ```
 
