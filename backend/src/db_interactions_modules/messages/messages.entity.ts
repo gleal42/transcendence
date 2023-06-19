@@ -17,7 +17,7 @@ import { Channel } from '../channels/channel.entity';
     @ManyToOne(() => User, user => user.id)
     @JoinColumn({ name: 'authorId' })
     author: User;
-    //author: string;
+
         
     @Column()
     message: string;
@@ -28,5 +28,5 @@ import { Channel } from '../channels/channel.entity';
    @ManyToOne(() => Channel, channel => channel.id)
    @JoinColumn({ name: 'channelId' })
    channel: Channel;
-    //channel: number;
+
    }
