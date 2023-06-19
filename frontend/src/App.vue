@@ -25,8 +25,8 @@
     </div>
     <div id="chat-container" ref="chatContainer">
       <div id="msg-container" ref="msgsContainer">
-        <div v-for="message in messages" :key="message.id" class="message">
-          <strong>[{{ message.author }}]:</strong> {{ message.message }}
+        <div v-for="message in messages" :key="message.id" :class="[getMessageClass(message.author.nick), 'message']">
+          <strong>[{{ message.author?.nick }}]:</strong> {{ message.message }}
           <div class="message-time">{{ formatTime(message.time) }}</div>
         </div>
       </div>
@@ -51,17 +51,16 @@ const messageText = ref('');
 const messages = ref([]);
 const channels = ref([]);
 const users = ref([]);
-let selected_channel = 3;
+let selected_channel = null;
 let side_info = ref(0);
 
 const check_user = async () => {
-
 try {
   let url = 'http://localhost:3000/users/getUsers/' + localStorage.name
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();  
-    console.log(data)  
+    localStorage.id=data.id
   } else {
     console.log('Error:', response.status);
     window.alert("User Doesn't exist")
@@ -86,22 +85,28 @@ else{
 }
 
 
+const getMessageClass = (author) => {
+  if (author == localStorage.name) {
+    return 'message-sent';
+  }
+  return 'message-received';
+};
+
 
 const getMessages = async () => {
-
-try {
-  let url = 'http://localhost:3000/chat/msginchannel/' + selected_channel
-  const response = await fetch(url);
-  if (response.ok) {
-    const data = await response.json();
-    messages.value = data;
-    scrollToBottom();
-  } else {
-    console.log('Error:', response.status);
+  try {
+    let url = 'http://localhost:3000/chat/msginchannel/' + selected_channel
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      messages.value = data;
+      scrollToBottom();
+    } else {
+      console.log('Error:', response.status);
+    }
+  } catch (error) {
+    console.log('Error:', error);
   }
-} catch (error) {
-  console.log('Error:', error);
-}
 };
 
 const getUsers = async () => {
@@ -167,9 +172,10 @@ const formatTime = (timestamp) => {
 
 
 const sendMessage = () => {
-  if (messageText.value == '')
-  return;
-  socket.emit('sendMessage', { /*author: 'marvin'*/author: localStorage.name, message: messageText.value, channel: selected_channel  })
+  if (messageText.value == '' || selected_channel == null)
+    return window.alert("Error: Message cannot be empty. Please enter a valid message or join channel before sending ");
+  socket.emit('sendMessage', { authorId:localStorage.id, message: messageText.value, channelId: selected_channel })
+  console.log(messageText)
   messageText.value = '';
 }
 
@@ -183,17 +189,19 @@ const chooseChannel = (channel)=>{
 }
 
 const createChannel = async () => {
-  let channel_name = window.prompt("Channel Name")
+  let channel_name = window.prompt("Channel Name");
   try {
     const response = await fetch('http://localhost:3000/channels/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type: '1' ,channel_name: channel_name }),
+      body: JSON.stringify({ type: '1', channel_name: channel_name }),
     });
     if (response.ok) {
-      getChannels();
+      await getChannels();
+      chooseChannel(response.id);
+      getMessages();
     } else {
       console.log('Error:', response.status);
     }
