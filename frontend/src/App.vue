@@ -1,7 +1,8 @@
+export const backurl = process.env.VUE_APP_BACKEND_URL
 <template>
   <div class="Chat">
     <div class="channels-list">
-      <div v-if="side_info === 0" v-for="channel in channels" :key="channel.id" class="channel" @click="chooseChannel(channel.id)">
+      <div v-if="side_info === 0" v-for="channel in channels" :key="channel.id" :class="['channel', { 'selected': channel.id === selected_channel }]" @click="chooseChannel(channel.id)">
         {{ channel.channel_name }}
       </div>
       <div v-if="side_info === 1" v-for="user in users" :key="user.id" class="user">
@@ -44,8 +45,7 @@
 import { io } from 'socket.io-client'
 import { ref, onBeforeMount, watch, nextTick } from 'vue';
 
-
-const socket = io('http://localhost:3000');
+const socket = io(process.env.VUE_APP_BACKEND_URL);
 const msgsContainer = ref(null);
 const messageText = ref('');
 const messages = ref([]);
@@ -56,7 +56,7 @@ let side_info = ref(0);
 
 const check_user = async () => {
 try {
-  let url = 'http://localhost:3000/users/getUsers/' + localStorage.name
+  let url = process.env.VUE_APP_BACKEND_URL + '/users/getUsers/' + localStorage.name
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();  
@@ -95,7 +95,7 @@ const getMessageClass = (author) => {
 
 const getMessages = async () => {
   try {
-    let url = 'http://localhost:3000/chat/msginchannel/' + selected_channel
+    let url = process.env.VUE_APP_BACKEND_URL + '/chat/msginchannel/' + selected_channel
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
@@ -112,7 +112,8 @@ const getMessages = async () => {
 const getUsers = async () => {
 side_info.value = 1;
 try {
-  const response = await fetch('http://localhost:3000/users/getUsers');
+  let url = process.env.VUE_APP_BACKEND_URL + '/users/getUsers'
+  const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
     users.value = data;
@@ -128,7 +129,8 @@ try {
 const getChannels = async () => {
 side_info.value = 0;
 try {
-  const response = await fetch('http://localhost:3000/channels/all');
+  let url = process.env.VUE_APP_BACKEND_URL + '/channels/all'
+  const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
     channels.value = data;
@@ -191,7 +193,8 @@ const chooseChannel = (channel)=>{
 const createChannel = async () => {
   let channel_name = window.prompt("Channel Name");
   try {
-    const response = await fetch('http://localhost:3000/channels/create', {
+    let url = process.env.VUE_APP_BACKEND_URL + '/channels/create'
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -199,9 +202,10 @@ const createChannel = async () => {
       body: JSON.stringify({ type: '1', channel_name: channel_name }),
     });
     if (response.ok) {
+      const data = await response.json();
       await getChannels();
-      chooseChannel(response.id);
-      getMessages();
+      chooseChannel(data.id);
+      console.log(data.id);
     } else {
       console.log('Error:', response.status);
     }
@@ -212,7 +216,6 @@ const createChannel = async () => {
 
 onBeforeMount(() => {
   getChannels();
-  getMessages();
 });
 
 socket.on('recMessage', message => {

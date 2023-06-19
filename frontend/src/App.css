@@ -90,6 +90,12 @@
   background-color: #555;
 }
 
+.selected {
+  background-color: #555;
+  font-weight: bold;
+}
+
+
 .channel:hover{
   background-color: #888;
   cursor: pointer;
@@ -160,18 +166,29 @@
 
 .bar-button{
   border: none;
-  margin: 5px;
   background-color: transparent;
+  padding: 5px;
   cursor: pointer;
   width: 25%;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   transition: transform 0.3s ease-in-out;
 }
 
 .bar-button:hover {
   transform: translateY(-15px);
 }
+
+
+@media (prefers-color-scheme: light) {
+  .channel-button,
+  .people-button,
+  .new-button,
+  .search-button {
+    filter: invert(100%);
+  }
+}
+
 
 .channel-button {
   background-image: url('../src/assets/channels.svg');
@@ -184,11 +201,8 @@
   background-image: url('../src/assets/new_message.svg');
 }
 
-
 .search-button {
-  background-image: url('../src/assets/search.svg');
-  fill: white;stroke:rgb(255, 255, 255);
-  
+  background-image: url('../src/assets/search.svg');  
 }
 
 

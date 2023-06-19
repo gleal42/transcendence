@@ -33,6 +33,8 @@ services:
     build: frontend/
     image: node_frontend
     restart: on-failure
+    environment:
+      - VUE_APP_BACKEND_URL=${BACKEND_URL}
     volumes:
       - ./frontend:/home/node/app
     ports:
