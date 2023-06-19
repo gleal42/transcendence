@@ -9,17 +9,13 @@ Under the descriptions should be related issues and/or pull requests.
 
 ```md
 ## What has been implemented:
-- Brief description of what has been implemented (1)
-- Brief description of what has been implemented (2)
-- Brief description of what has been implemented (3)
+1. Brief description of what has been implemented
+2. Brief description of what has been implemented
+3. Brief description of what has been implemented
 
-> Brief description of what has been implemented (1)
+1 - Bigger explanation of what has changed. This can also include reasoning why it has changed.
 
-Bigger explanation of what has changed. This can also include reasoning why it has changed.
-
-> Brief description of what has been implemented (3)
-
-Not all changes require extra context. So you can just leave them out when you think they are self explenatory. But you should keep them in the order that showed up in the list.
+3 - Not all changes require extra context. So you can just leave them out when you think they are self explenatory. But you should keep them in the order that showed up in the list.
 
 ## Related issues:
 - #5
@@ -29,17 +25,14 @@ Not all changes require extra context. So you can just leave them out when you t
 ### Preview:
 ---
 ## What has been implemented:
-- Brief description of what has been implemented (1)
-- Brief description of what has been implemented (2)
-- Brief description of what has been implemented (3)
+1. Brief description of what has been implemented
+2. Brief description of what has been implemented
+3. Brief description of what has been implemented
 
-> Brief description of what has been implemented (1)
 
-Bigger explanation of what has changed. This can also include reasoning why it has changed.
+1 - Bigger explanation of what has changed. This can also include reasoning why it has changed.
 
-> Brief description of what has been implemented (3)
-
-Not all changes require extra context. So you can just leave them out when you think they are self explenatory. But you should keep them in the order that showed up in the list.
+3 - Not all changes require extra context. So you can just leave them out when you think they are self explenatory. But you should keep them in the order that showed up in the list.
 
 ## Related issues:
 - #5
@@ -47,7 +40,7 @@ Not all changes require extra context. So you can just leave them out when you t
 
 ---
 
-Make sure to add labels and requests reviews once your pull request is created.
+Make sure to add labels and requests reviews once your pull request is created. Labels can be added on the right when creating a pull request (or after having created one). This is also where you can added reviewers and relate issues. Labels are usually similar to the labels from related issues.
 
 ## Review
 
