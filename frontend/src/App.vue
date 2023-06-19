@@ -210,7 +210,6 @@ const createChannel = async () => {
   }
 };
 
-
 onBeforeMount(() => {
   getChannels();
   getMessages();
