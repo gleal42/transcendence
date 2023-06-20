@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserToChannel } from './user_to_channel.entity';
+import { CreateUserToChannDto } from './dtos/user_to_channel.dto';
 
 @Injectable()
 export class UserToChannelService {
@@ -9,8 +10,8 @@ export class UserToChannelService {
     @InjectRepository(UserToChannel) private UserToChannelRepository: Repository<UserToChannel>,
   ) { }
 
-  async joinchannel(UserToChannel: any) {
-    return await this.UserToChannelRepository.save(UserToChannel);
+  async joinchannel(UserToChannel: CreateUserToChannDto) {
+    return await this.UserToChannelRepository.save({...UserToChannel as any});
   }
 
   async leavechannel(id_us: number, id_ch: number) {

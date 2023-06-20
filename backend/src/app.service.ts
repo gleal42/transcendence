@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Messages } from './db_interactions_modules/messages/messages.entity';
 import { User } from './db_interactions_modules/users/user.entity';
 import { Channel } from './db_interactions_modules/channels/channel.entity';
+import { CreateMsgDto } from './db_interactions_modules/messages/dtos/message.dto';
  
 @Injectable()
 export class AppService {
@@ -12,7 +13,7 @@ export class AppService {
    @InjectRepository(User)private userRepository: Repository<User>,
    @InjectRepository(Channel)private channelRepository: Repository<Channel>
  ) {}
- async createMessage(Messages: any){
+ async createMessage(Messages: CreateMsgDto){
   const user= await this.userRepository.findOne({where: {
      id:  Messages.authorId }    
   });

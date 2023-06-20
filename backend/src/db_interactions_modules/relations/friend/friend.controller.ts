@@ -2,13 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { friend } from './friend.entity';
 import { UsersService } from 'src/db_interactions_modules/users/users.service';
 import { friendService } from './friend.service';
+import { CreateFriendDto } from './dtos/friend.dto';
 
 @Controller('friends')
 export class friendsController {
   constructor(private readonly friendService: friendService) {}
   
  @Post('/create')
-  create(@Body() createFriendDto: any) {
+  create(@Body() createFriendDto: CreateFriendDto) {
     return this.friendService.createfriend(createFriendDto);
   }
 
