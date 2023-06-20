@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <h1>Chat page</h1>
+    <h1>User Profile</h1>
   </div>
 </template>
 
