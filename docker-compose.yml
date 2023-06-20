@@ -8,9 +8,42 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - PGDATA=/data
-  # frontend:
-  # backend:
+      - APP_DATABASE=${DB_NAME}
+    ports:
+      - "5432:5432"
+    container_name: db
+  backend:
+    build: backend/
+    image: node_backend
+    depends_on:
+      - postgres
+    restart: on-failure
+    volumes:
+      - ./backend:/home/node/app
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - "3000:3000"
+    container_name: backend
+    user: node
 
+  frontend:
+    build: frontend/
+    image: node_frontend
+    restart: on-failure
+    environment:
+      - VUE_APP_BACKEND_URL=${BACKEND_URL}
+    volumes:
+      - ./frontend:/home/node/app
+    ports:
+      - '5173:5173'
+    container_name: frontend
+    depends_on:
+      - backend
+    user: node
+    
 networks:
   transcendence:
     driver: bridge
@@ -21,13 +54,3 @@ volumes:
       type: none
       o: bind
       device: ${DB_VOL_LOC}
-  # v_frontend:
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: 
-  # v_backend:
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: 
