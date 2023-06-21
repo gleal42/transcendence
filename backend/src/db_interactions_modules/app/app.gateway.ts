@@ -9,6 +9,8 @@ OnGatewayDisconnect,
 
 import { Socket, Server } from 'socket.io';
 import { AppService } from '../../app.service';
+import { CreateMsgDto } from '../messages/dtos/message.dto';
+import { UsePipes, ValidationPipe } from '@nestjs/common';
 
 
 @WebSocketGateway({
@@ -24,7 +26,8 @@ import { AppService } from '../../app.service';
  @WebSocketServer() server: Server;
  
  @SubscribeMessage('sendMessage')
- async handleSendMessage(client: Socket, payload: any): Promise<void> {
+ @UsePipes(new ValidationPipe())
+ async handleSendMessage(client: Socket, payload: CreateMsgDto): Promise<void> {
   console.log(new Date(),payload)
    await this.appService.createMessage(payload);
    this.server.emit('recMessage', payload);

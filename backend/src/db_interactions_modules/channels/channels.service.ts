@@ -2,6 +2,7 @@ import { Injectable,ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository,MoreThan, QueryFailedError } from 'typeorm';
 import { Channel } from './channel.entity';
+import { ChannelCreateDto } from './dtos/channelcreate.dto';
 
 @Injectable()
 export class ChannelsService {
@@ -11,7 +12,7 @@ export class ChannelsService {
  ) {}
 
 
- async create(createChannelDto: any) {
+ async create(createChannelDto: ChannelCreateDto) {
   try {
     const response = await this.ChannelsRepository.save(createChannelDto)// Perform the database operation that may cause a duplicate key exception
     return response
