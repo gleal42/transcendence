@@ -24,7 +24,6 @@ let islogged = ref(false);
 
 function login()
 {
-  console.log("YOOOOOOOOOOO")
   islogged.value=true
 }
 
