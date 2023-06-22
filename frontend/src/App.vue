@@ -10,8 +10,8 @@
     <div v-if="islogged">
       <RouterView/>
     </div>
-    <div v-else @isbuttonclicked="login">
-      <Login/>
+    <div v-else >
+      <Login @isbuttonclicked="login"/>
     </div>
 </template>
 
@@ -24,6 +24,7 @@ let islogged = ref(false);
 
 function login()
 {
+  console.log("YOOOOOOOOOOO")
   islogged.value=true
 }
 
