@@ -231,6 +231,6 @@ watch(messages, () => {
 
 
 <style>
-  @import './App.css';
+  @import '../assets/Chat.css';
 </style>
 
