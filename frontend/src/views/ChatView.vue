@@ -41,7 +41,7 @@ export const backurl = process.env.VUE_APP_BACKEND_URL
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { io } from 'socket.io-client'
 import { ref, onBeforeMount, watch, nextTick } from 'vue';
 
