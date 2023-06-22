@@ -10,10 +10,6 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // Create a reactive refs
 const gamecanvas = ref(null)
 let ctx = ref(null)
-const observer = new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting) {
-
-}})})
-
 let animation = null
 
 const ball = {
@@ -43,7 +39,7 @@ const paddle2 = {
 let lastTime = null
 
 onMounted(() => {
-  observer.observe(gamecanvas.value)
+  console.log("Mounting Pong")
   window.addEventListener('resize', onWidthChange)
   window.addEventListener('keydown', onKeyDown)
   window.addEventListener('keyup', onKeyUp)
@@ -52,6 +48,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  console.log("Unmounting Pong")
   window.removeEventListener('resize', onWidthChange)
   window.removeEventListener('keydown', onKeyDown)
   window.removeEventListener('keyup', onKeyUp)
