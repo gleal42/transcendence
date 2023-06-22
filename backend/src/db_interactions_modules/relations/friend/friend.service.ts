@@ -2,14 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { friend } from './friend.entity';
+import { CreateFriendDto } from './dtos/friend.dto';
+import { User } from 'src/db_interactions_modules/users/user.entity';
  
 @Injectable()
 export class friendService {
  constructor(
    @InjectRepository(friend) private friendRepository: Repository<friend>,
+   @InjectRepository(User) private userRepository: Repository<User>
  ) {}
- async createfriend(createfriendDto: any) {
-   return await this.friendRepository.save(createfriendDto);
+ async createfriend(createfriendDto: CreateFriendDto) {
+  //TODO: Validate if friendship already exist and if users id sent exist
+  const user1= await this.userRepository.findOne({where: {id: createfriendDto.user1Id} })
+  const user2= await this.userRepository.findOne({where: {id: createfriendDto.user2Id} })
+   return this.friendRepository.save({...createfriendDto as any});
  }
  async findAll() {
   return await this.friendRepository.find({relations: ['user1Id', 'user2Id' ]});

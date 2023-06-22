@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository, QueryFailedError } from 'typeorm';
 import { Response } from 'express';
+import { CreateUserDto } from './dtos/user.dto';
 
 
 @Injectable()
@@ -13,9 +14,9 @@ export class UsersService {
   ) {}
 
 
-  async createUser(User: any){
-    try {
-        const response = await this.userRepository.save(User)// Perform the database operation that may cause a duplicate key exception
+  async createUser(User: CreateUserDto){
+    try {// Perform the database operation that may cause a duplicate key exception
+        const response = await this.userRepository.save({...User, creation_date : new Date(), last_joined_date : new Date(), lost_games: 0, won_games: 0, xp_total:0})
         return response
       } catch (error) {
         if (error instanceof QueryFailedError) {

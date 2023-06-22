@@ -176,7 +176,7 @@ const formatTime = (timestamp) => {
 const sendMessage = () => {
   if (messageText.value == '' || selected_channel == null)
     return window.alert("Error: Message cannot be empty. Please enter a valid message or join channel before sending ");
-  socket.emit('sendMessage', { authorId:localStorage.id, message: messageText.value, channelId: selected_channel })
+  socket.emit('sendMessage', { authorId:parseInt(localStorage.id), message: messageText.value, channelId: selected_channel })
   console.log(messageText)
   messageText.value = '';
 }
@@ -199,7 +199,7 @@ const createChannel = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type: '1', channel_name: channel_name }),
+      body: JSON.stringify({ type: 1, channel_name: channel_name }),
     });
     if (response.ok) {
       const data = await response.json();
@@ -231,7 +231,6 @@ watch(messages, () => {
 
 
 <style>
-  @import '../assets/Chat.css';
+  @import './App.css';
 </style>
-
 
