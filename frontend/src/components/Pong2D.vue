@@ -10,6 +10,10 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // Create a reactive refs
 const gamecanvas = ref(null)
 let ctx = ref(null)
+const observer = new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting) {
+
+}})})
+
 let animation = null
 
 const ball = {
@@ -36,19 +40,71 @@ const paddle2 = {
   movingUp: false
 }
 
-let lastTime = 0
+let lastTime = null
 
 onMounted(() => {
+  observer.observe(gamecanvas.value)
   window.addEventListener('resize', onWidthChange)
   window.addEventListener('keydown', onKeyDown)
   window.addEventListener('keyup', onKeyUp)
-
   init()
+  start_animation()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', onWidthChange)
+  window.removeEventListener('keydown', onKeyDown)
+  window.removeEventListener('keyup', onKeyUp)
+})
+
+function isBallInsideHorizontalWalls() {
+  return ball.y + ball.radius < gamecanvas.value.height && ball.y - ball.radius > 0
+}
+
+function isBallInsideVerticalWalls() {
+
+  return ball.x + ball.radius < gamecanvas.value.width && ball.x - ball.radius > 0
+}
+
+function init() {
+  ball.direction.x = 0
+  gamecanvas.value.height = window.innerHeight * 0.8
+  gamecanvas.value.width = window.innerWidth * 0.8
+
+  ball.x = gamecanvas.value.width / 2
+  ball.y = gamecanvas.value.height / 2
+  ball.radius = gamecanvas.value.height / 100
+  ball.speed = 0.2
+
+  while (Math.abs(ball.direction.x) <= 0.4) {
+    console.log('before' + ball.direction.x)
+    const angle = randomNumberBetween(0, 2 * Math.PI)
+    ball.direction = { x: Math.cos(angle), y: Math.sin(angle) }
+  }
+  console.log('after' + ball.direction.x)
+
+  paddle1.width = 20
+  paddle1.height = 100
+  paddle1.x = 20
+  paddle1.y = gamecanvas.value.height / 2 - paddle1.height / 2
+
+  paddle2.width = paddle1.width
+  paddle2.height = paddle1.height
+  paddle2.x = gamecanvas.value.width - paddle1.x - paddle2.width
+  paddle2.y = paddle1.y
+
+  ctx.value = gamecanvas.value.getContext('2d')
+}
+
+function start_animation()
+{
   animation = requestAnimationFrame(animate)
   function animate(time: DOMHighResTimeStamp) {
     if (lastTime != null) {
       const delta = time - lastTime
       if (!isBallInsideVerticalWalls()) {
+        console.log("Delta "+delta)
+        console.log("IN VIEW INSIDE "+ball.x+" "+ball.y)
         cancelAnimationFrame(animation)
         return
       }
@@ -74,50 +130,6 @@ onMounted(() => {
     lastTime = time
     animation = requestAnimationFrame(animate)
   }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onWidthChange)
-  window.removeEventListener('keydown', onKeyDown)
-  window.removeEventListener('keyup', onKeyUp)
-})
-
-function isBallInsideHorizontalWalls() {
-  return ball.y + ball.radius < gamecanvas.value.height && ball.y - ball.radius > 0
-}
-
-function isBallInsideVerticalWalls() {
-  return ball.x + ball.radius < gamecanvas.value.width && ball.x - ball.radius > 0
-}
-
-function init() {
-  ball.direction.x = 0
-  gamecanvas.value.height = window.innerHeight * 0.8
-  gamecanvas.value.width = window.innerWidth * 0.8
-
-  ball.x = gamecanvas.value.width / 2
-  ball.y = gamecanvas.value.height / 2
-  ball.radius = gamecanvas.value.height / 100
-  ball.speed = 0.4
-
-  while (Math.abs(ball.direction.x) <= 0.4) {
-    console.log('before' + ball.direction.x)
-    const angle = randomNumberBetween(0, 2 * Math.PI)
-    ball.direction = { x: Math.cos(angle), y: Math.sin(angle) }
-  }
-  console.log('after' + ball.direction.x)
-
-  paddle1.width = 20
-  paddle1.height = 100
-  paddle1.x = 20
-  paddle1.y = gamecanvas.value.height / 2 - paddle1.height / 2
-
-  paddle2.width = paddle1.width
-  paddle2.height = paddle1.height
-  paddle2.x = gamecanvas.value.width - paddle1.x - paddle2.width
-  paddle2.y = paddle1.y
-
-  ctx.value = gamecanvas.value.getContext('2d')
 }
 
 function startBoard() {
